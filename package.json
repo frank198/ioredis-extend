@@ -1,0 +1,16 @@
+{
+  "name": "ioredis-extend",
+  "version": "0.0.1",
+  "devDependencies": {
+    "eslint": "^3.12.2",
+    "eslint-plugin-react": "^6.8.0",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "ioredis": "^2.4.3",
+    "lodash": "^4.17.2",
+    "waterline-criteria": "^2.0.0",
+    "waterline-cursor": "0.0.7"
+  }
+}

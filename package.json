@@ -1,6 +1,22 @@
 {
   "name": "ioredis-extend",
   "version": "0.0.1",
+  "description": "ioredis 使用扩展,参考 sails-ioredis",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "ioredis",
+    "redis",
+    "sentinel"
+  ],
+  "author": "frank198",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frank198/ioredis-extend.git"
+  },
   "devDependencies": {
     "eslint": "^3.12.2",
     "eslint-plugin-react": "^6.8.0",

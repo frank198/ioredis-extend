@@ -1,6 +1,6 @@
 {
   "name": "ioredis-extend",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "ioredis 使用扩展,参考 sails-ioredis",
   "main": "index.js",
   "scripts": {

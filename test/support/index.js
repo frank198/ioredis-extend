@@ -2,8 +2,6 @@
  * Expose `Support`
  */
 
-const co = require('co');
-
 module.exports = function(adapter)
 {
 	const Support = {};
@@ -17,7 +15,7 @@ module.exports = function(adapter)
    */
 
 	Support.Configure = function(name, definition)
-{
+	{
 		return {
 			identity   : name,
 			definition : definition
@@ -27,44 +25,45 @@ module.exports = function(adapter)
   /**
    * Setup function
    *
-   * @param {String} collection
+   * @param {String} conn
    * @param {Object} def
    * @param {Function} callback
    */
 
 	Support.Setup = function(conn, name, def, callback)
-{
+	{
 		const connection = {
 			identity : conn,
-			port     : 6800,
-			host     : '192.168.31.233',
-			password : 'gameMirror',
+			enableOfflineQueue : true,
+			// port     : 6800,
+			// host     : '192.168.31.132',
+			// password : 'gameMirror',
 
       // sentinels: [{ host: 'localhost', port: 26379 }],
       // name: 'master'
 			hosts : [
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7001,
 				},
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7002,
 				},
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7003,
 				},
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7004,
 				},
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7005,
 				},
 				{
-					host : '192.168.31.233',
+					host : '192.168.31.132',
 					port : 7006,
 				},
 			],
@@ -76,26 +75,32 @@ module.exports = function(adapter)
 		const collections = {};
 		collections[name] = collection;
 
-		co(adapter.RegisterConnection(connection, collections))
-        .then(callback);
+		try {
+			adapter.RegisterConnection(connection, collections)
+				.then(callback);
+		}
+		catch (err)
+		{
+			console.error(err);
+		}
 	};
 
   /**
    * Teardown function
    *
-   * @param {String} collection
+   * @param {String} conn
    * @param {Function} callback
    */
 
 	Support.Teardown = function(conn, collection, callback)
-  {
+	{
 
-		co(adapter.Drop(conn, collection, []))
-          .then(() =>
-          {
-	adapter.Teardown(conn);
-	callback();
-});
+		adapter.Drop(conn, collection, [])
+			.then(() =>
+			{
+				adapter.Teardown(conn);
+				callback();
+			});
 	};
 
 	return Support;

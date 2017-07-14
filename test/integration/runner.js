@@ -8,11 +8,6 @@
  * are tested. (e.g. `queryable`, `semantic`, etc.)
  */
 
-
-/**
- * Module dependencies
- */
-
 var util = require('util');
 var mocha = require('mocha');
 var log = require('captains-log')();
@@ -67,7 +62,7 @@ new TestRunner({
 
   // Default connection config to use.
   config: {
-    host: '192.168.31.233',
+    host: '192.168.31.132',
     port: 6800,
     schema: true,
     password: 'gameMirror',

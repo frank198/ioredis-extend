@@ -6,6 +6,7 @@ module.exports = {
 	},
 	"extends": "eslint:recommended",
 	"parserOptions": {
+		"ecmaVersion": 8,
 		"sourceType": "module"
 	},
 	"globals":
@@ -20,7 +21,8 @@ module.exports = {
 	"rules": {
 		"indent": [
 			"error",
-			"tab"
+			"tab",
+			{ "SwitchCase": 1 }
 		],
 		"no-unsafe-finally": "error",
 		"no-empty-function": "error",
@@ -28,7 +30,6 @@ module.exports = {
 		"no-lone-blocks": "error",
 		"no-labels": "error",
 		"no-eval": "error",
-		"no-magic-numbers": ["warn", { "ignore": [0,1,-1] }],
 		"no-native-reassign": "error",
 		"no-new-func": "error",
 		"no-multi-spaces": "error",
@@ -36,14 +37,10 @@ module.exports = {
 		"no-iterator": "error",
 		"no-implicit-coercion": "error",
 		"no-implicit-globals": "error",
-		"no-invalid-this": "error",
 		"camelcase": ["warn", {"properties": "always"}],
 		"no-with": "error",
-		"strict": "error",
 		"no-unused-vars": ["warn", { "args": "none" }],
-		"no-undefined": "error",
 		"no-undef-init": "error",
-		"no-undef": "error",
 		"no-shadow-restricted-names": "error",
 		"no-label-var": "error",
 		"no-delete-var": "error",
@@ -176,4 +173,4 @@ module.exports = {
 		"yield-star-spacing": ["error", "before"],
 		"require-yield": "off"
 	}
-}
+};

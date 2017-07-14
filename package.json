@@ -1,6 +1,6 @@
 {
   "name": "ioredis-extend",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "ioredis 使用扩展,参考 sails-ioredis",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,11 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
-    "co": "^4.6.0",
-    "ioredis": "^2.4.3",
-    "lodash": "^4.17.2",
+    "ioredis": "^3.1.1",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.map": "^4.6.0",
+    "lodash.omit": "^4.5.0",
+    "lodash.pick": "^4.4.0",
     "waterline-criteria": "^2.0.0",
     "waterline-cursor": "0.0.7"
   }

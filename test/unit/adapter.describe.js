@@ -2,8 +2,7 @@
  * Test dependencies
  */
 
-let assert = require('assert'),
-	co = require('co'),
+const assert = require('assert'),
 	Adapter = require('../../'),
 	Support = require('../support')(Adapter);
 
@@ -15,9 +14,9 @@ describe('adapter `.describe()`', function()
 {
 
 	describe('with simple case', function()
-{
+	{
 		before(function(done)
-{
+		{
 			const definition = {
 				id : {
 					type       : 'integer',
@@ -29,7 +28,7 @@ describe('adapter `.describe()`', function()
 			};
 
 			Support.Setup('describe', 'simple', definition, function(err)
-{
+			{
 				if (err) return done(err);
 				Adapter.Define('describe', 'simple', definition);
 				done();
@@ -37,28 +36,25 @@ describe('adapter `.describe()`', function()
 		});
 
 		after(function(done)
-{
+		{
 			Support.Teardown('describe', 'simple', done);
 		});
 
 		it('should properly describe attributes', done =>
-    {
-			co(function *()
         {
-				const definition = yield Adapter.Describe('describe', 'simple');
-				console.log('def', definition);
-				assert(definition.id.primaryKey);
-				assert(definition.id.type === 'integer');
-				assert(definition.name.type === 'string');
-				done();
-			});
+	        const definition = Adapter.Describe('describe', 'simple');
+	        console.log('def', definition);
+	        assert(definition.id.primaryKey);
+	        assert(definition.id.type === 'integer');
+	        assert(definition.name.type === 'string');
+	        done();
 		});
 	});
 
 	describe('with complex case', function()
-{
+	{
 		before(function(done)
-{
+		{
 			const definition = {
 				id : {
 					type       : 'integer',
@@ -80,7 +76,7 @@ describe('adapter `.describe()`', function()
 			};
 
 			Support.Setup('describe', 'complex', definition, function(err)
-{
+			{
 				if (err) return done(err);
 				Adapter.Define('describe', 'complex', definition);
 				done();
@@ -88,25 +84,22 @@ describe('adapter `.describe()`', function()
 		});
 
 		after(function(done)
-{
+		{
 			Support.Teardown('describe', 'complex', done);
 		});
 
 		it('should properly describe attributes', done =>
-    {
-			co(function *()
         {
-				const definition = yield Adapter.Describe('describe', 'complex');
-				assert(definition.id.primaryKey);
-				assert(definition.name.unique);
-				assert(definition.email.unique);
-				assert(definition.age.unique);
-				assert(definition.id.type === 'integer');
-				assert(definition.name.type === 'string');
-				assert(definition.email.type === 'string');
-				assert(definition.age.type === 'integer');
-				done();
-			});
+		    const definition = Adapter.Describe('describe', 'complex');
+	        assert(definition.id.primaryKey);
+	        assert(definition.name.unique);
+	        assert(definition.email.unique);
+	        assert(definition.age.unique);
+	        assert(definition.id.type === 'integer');
+	        assert(definition.name.type === 'string');
+	        assert(definition.email.type === 'string');
+	        assert(definition.age.type === 'integer');
+	        done();
 		});
 	});
 });

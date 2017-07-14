@@ -2,9 +2,7 @@
  * Test dependencies
  */
 
-let async = require('async'),
-	assert = require('assert'),
-	co = require('co'),
+const assert = require('assert'),
 	Adapter = require('../../'),
 	Support = require('../support')(Adapter),
 	Errors = require('../../lib/Errors').adapter;
@@ -17,11 +15,11 @@ describe('adapter `.destroy()`', function()
 {
 
 	describe('with explicit id', function()
-{
+	{
 		let model;
 
 		before(function(done)
-{
+		{
 			const definition = {
 				id : {
 					type          : 'integer',
@@ -37,50 +35,53 @@ describe('adapter `.destroy()`', function()
 			};
 
 			Support.Setup('destroy', 'destroy', definition, function(err)
-{
+			{
 				if (err) throw err;
-				co(function *()
-        {
-					const m = yield Adapter.Create('destroy', 'destroy', {email: 'jaba@hotmail.com', name: 'Jaba the hut'});
-					model = m;
-					done();
-				});
+				Adapter.Create('destroy', 'destroy', {
+					email : 'jaba@hotmail.com',
+					name  : 'Jaba the hut'})
+					.then(result =>
+					{
+						model = result;
+						done();
+					});
+
 			});
 		});
 
 		after(function(done)
-{
+		{
 			Support.Teardown('destroy', 'destroy', done);
 		});
 
 		it('should delete a record', done =>
-    {
-			co(Adapter.Destroy('destroy', 'destroy', {id: model.id}))
-            .then(result =>
-            {
-	co(Adapter.Find('destroy', 'destroy', {id: model.id}))
-                    .then(models =>
-                    {
-	assert(models.length === 0);
-	done();
-})
-                    .catch(err =>
-                    {
-	assert(!err);
-	done();
-});
-})
-            .catch(err =>
-            {
-	assert(!err);
-});
+        {
+			Adapter.Destroy('destroy', 'destroy', {id: model.id})
+				.then(result =>
+                {
+					Adapter.Find('destroy', 'destroy', {id: model.id})
+						.then(models =>
+						{
+							assert(models.length === 0);
+							done();
+						})
+						.catch(err =>
+						{
+							assert(!err);
+							done();
+						});
+				})
+				.catch(err =>
+                {
+					assert(!err);
+				});
 		});
 	});
 
 	describe('with multiple records', function()
-{
+	{
 		before(function(done)
-{
+		{
 			let i, len;
 
 			const definition = {
@@ -98,47 +99,48 @@ describe('adapter `.destroy()`', function()
 			};
 
 			Support.Setup('destroy', 'destroy', definition, function(err)
-{
+			{
 				if (err) throw err;
-
-				co(function *()
-        {
-					const promiseArr = [];
-					[1, 2, 3, 4].forEach(value =>
-            {
-						promiseArr.push(co(Adapter.Create('destroy', 'destroy', {email: i, name: `User${value}`})));
-					});
-					const result = yield promiseArr;
-					console.info(result);
-					done();
+				const promiseArr = [];
+				[1, 2, 3, 4].forEach(value =>
+				{
+					promiseArr.push(Adapter.Create('destroy', 'destroy', {
+						email : i,
+						name  : `User${value}`}));
 				});
+				Promise.all(promiseArr)
+					.then(result =>
+					{
+						console.info(result);
+						done();
+					});
+
 			});
 		});
 
 		after(function(done)
-{
+		{
 			Support.Teardown('destroy', 'destroy', done);
 		});
 
 		it('should delete all records', (done) =>
-    {
-			co(Adapter.Destroy('destroy', 'destroy', {where: {name: 'User1'}}))
-            .then(status =>
-            {
-	co(Adapter.Find('destroy', 'destroy', {where: {name: 'User2'}}))
-                    .then(models =>
-                    {
-	assert(!models.length);
-	assert(models.length === 0);
-	done();
-})
-                    .catch(err =>
-                    {
-	assert(!err);
-	done();
-});
-})
-            .catch(err => {throw err;});
+        {
+			Adapter.Destroy('destroy', 'destroy', {where: {name: 'User1'}})
+				.then(status =>
+	            {
+					Adapter.Find('destroy', 'destroy', {where: {name: 'User1'}})
+						.then(models =>
+						{
+							assert(models.length <= 0);
+							done();
+						})
+						.catch(err =>
+						{
+							assert(!err);
+							done();
+						});
+				})
+                .catch(err => {throw err;});
 		});
 	});
 

@@ -1,15 +1,12 @@
-/**
- * Created by frank on 16-11-22.
- */
-let assert = require('assert'),
+
+const assert = require('assert'),
 	Adapter = require('../../'),
-	Support = require('../support')(Adapter),
-	Errors = require('waterline-errors').adapter;
+	Support = require('../support')(Adapter);
 
 describe('adapter data updateTest', function()
 {
 	before(function(done)
-{
+	{
 		const definition = {
 			id : {
 				type       : 'integer',
@@ -21,28 +18,28 @@ describe('adapter data updateTest', function()
 		};
 
 		Support.Setup('ccjh', 'ccjh', {}, () =>
-{
-			Adapter.define('ccjh', 'playerRole', definition, done);
+		{
+			Adapter.Define('ccjh', 'playerRole', definition);
+			done();
 		});
 	});
 
 	after(function(done)
-{
+	{
 		Support.Teardown('ccjh', 'playerRole', done);
 	});
 
 	describe('create', function()
   {
 		it('should properly create a new record', function(done)
-{
+		{
 			const attributes = {
 				id   : 1,
 				name : 'Darth Vader'
 			};
 
-			Adapter.create('ccjh', 'playerRole', attributes, function(err, model)
-{
-				if (err) throw err;
+			Adapter.Create('ccjh', 'playerRole', attributes).then(model =>
+			{
 				assert(model.id === 1);
 				assert(model.name === 'Darth Vader');
 				done();

@@ -48,11 +48,27 @@ describe('adapter `.update()`', function()
 
 		it('should properly update attributes', function(done)
 		{
-			Adapter.DeleteKeys('update', 'update', {id: 1}, ['name'])
+			Adapter.DeleteKeys('update', 'update', {id: 1}, [name])
 				.then(model =>
 				{
 					assert(model[0].id === 1);
 					assert(model[0].name === 'Walter');
+					done();
+				});
+		});
+
+		it('update name', function(done)
+		{
+			Adapter.Update('update', 'update', {id: 1}, {name: 'frank'})
+				.then(model =>
+				{
+					assert(model[0].id === 1);
+					assert(model[0].name === 'frank');
+					done();
+				})
+				.catch(err =>
+				{
+					assert(err.message === Errors.NotUnique);
 					done();
 				});
 		});

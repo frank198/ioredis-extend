@@ -31,8 +31,18 @@ describe('adapter `.find()`', function()
 		Support.Setup('finders', 'finders', definition, () =>
         {
 	        const coArr = [
-		        Adapter.Create('finders', 'finders', {name : 'Steve Holt', age  : 19}),
-		        Adapter.Create('finders', 'finders', {name : 'Annyong', age  : 18})
+		        Adapter.Create('finders', 'finders', {name : 'Steve Holt',
+			age  : 19}),
+		        Adapter.Create('finders', 'finders', {name : 'Annyong',
+			        age  : 19}),
+		        Adapter.Create('finders', 'finders', {name : 'Annyong',
+			        age  : 16}),
+		        Adapter.Create('finders', 'finders', {name : 'Annyong',
+			        age  : 15}),
+		        Adapter.Create('finders', 'finders', {name : 'Annyong',
+			        age  : 20}),
+		        Adapter.Create('finders', 'finders', {name : 'Annyong',
+			age  : 18})
 	        ];
 	        Promise.all(coArr).then(result =>
 	        {
@@ -64,9 +74,11 @@ describe('adapter `.find()`', function()
 
 		it('should find using integer `age`', done =>
         {
-	        const criteria = {gId     : 1,
-		groupBy : ['age'],
-		min     : [1]};
+	        const criteria =
+		        {
+			        where : {age: {'>': 10}},
+			        sort  : {'age': -1}
+		        };
 	        Adapter.Find('finders', 'finders', criteria)
 		        .then(records =>
 		        {
@@ -299,7 +311,7 @@ describe('adapter complex`.find()`', function()
 		        Adapter.Create('finders', 'finders', {name : 'Annyong',
 			age  : 18}),
 		        Adapter.Create('finders', 'finders', {name : 'frank',
-			age  : 11}),
+			age  : 13}),
 		        Adapter.Create('finders', 'finders', {name : 'steve',
 			age  : 12}),
 		        Adapter.Create('finders', 'finders', {name : 'holt',
@@ -338,7 +350,7 @@ describe('adapter complex`.find()`', function()
 
 	it('should properly return records using or ', done =>
 	{
-		const criteria = {where: {'or': [{age: 13}, {name: 'frank'}]}};
+		const criteria = {where: [{age: {'>': 12}}, {name: 'frank'}]};
 		Adapter.Find('finders', 'finders', criteria)
 			.then(records =>
 			{
